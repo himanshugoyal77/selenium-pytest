@@ -18,17 +18,26 @@ import pytest
     # @pytest.fixture()
     # yield
 
-@pytest.fixture()
-def setup():
-    # opening chrome browser or seting up db
-    print("I will be executing first")
-    # after yeild everythin is post executed after test case ran
-    yield
-    # close browser
-    print("I will exectute last")
 
 def test_fixtureDemo(setup):
     print("i will execute steps after")
+
+@pytest.mark.usefixtures("setup")
+class TestFixtureExample:
+    # not need to pass setup to every function
+    # pass it to class
+    def test_fixtureDemo1(self):
+        print("i will execute steps after")
+
+    def test_fixtureDemo2(self):
+        print("i will execute steps after")
+
+
+@pytest.mark.usefixtures("loaddata")
+class TestExample:
+    def test_data(self, loaddata):
+        print(loaddata)
+
 
 @pytest.mark.xfail
 def test_failButExec():
